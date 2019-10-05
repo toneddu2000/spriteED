@@ -93,7 +93,13 @@ void Char_Death(entity e)
 {
 	if(e != world){
 		Part_Spawn(e.spriteOrg,"explosion");
-		Util_Remove(e);
+		if(e.spriteClass == SPRITE_CLASS_NPC){
+			Util_Remove(e);
+		}
+		else{
+			Game_StateLose();
+		}
+		
 	}
 }
 
@@ -105,28 +111,33 @@ void Char_AttackRadius(entity p)
 		local entity e = world;
 		while ((e = nextent(e))){
 			if(e.gameClass == GAME_CLASS_SPRITE && e.spriteClass == SPRITE_CLASS_NPC){
-				if(e.charHealth > 0){
-					dist = Util_Vec2Dist(p.spriteOrg,e.spriteOrg);
-					if(dist < CHAR_RADIUS_ATTACK){
-						Char_Damage(e,p.charDamage);
-						//Part_Spawn(p.spriteOrg,"campfire");
-						if(e.charDamage <= 0){
-							Char_Death(e);
+				if(e != world){
+					if(e.charHealth > 0){
+						dist = fabs(Util_Vec2Dist(p.spriteOrg,e.spriteOrg));
+						if(dist < CHAR_RADIUS_ATTACK){
+							Char_Damage(e,p.charDamage);
+							if(e.charDamage <= 0){
+								Char_Death(e);
+							}
 						}
+					}
+					else{
+						Char_Death(e);
 					}
 				}
 			}
 		}
 	}
 	else{
-		if(player != world && player.charHealth > 0){
-			dist = Util_Vec2Dist(player.spriteOrg,p.spriteOrg);
-			if(dist < CHAR_RADIUS_ATTACK){
-				Char_Damage(player,p.charDamage);
-				Part_Spawn(player.spriteOrg,"explosion");
-				if(player.charDamage <= 0){
-					Char_Death(player);
+		if(player != world){
+			if(player.charHealth > 0){
+				dist = Util_Vec2Dist(player.spriteOrg,p.spriteOrg);
+				if(dist < CHAR_RADIUS_ATTACK){
+					Char_Damage(player,p.charDamage);
 				}
+			}
+			else{
+				Char_Death(player);
 			}
 		}
 	}

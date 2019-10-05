@@ -39,6 +39,7 @@ const float		GAME_STATE_LEVELS = 4;
 const float		GAME_STATE_PAUSED = 5;
 const float		GAME_STATE_LEVELSAVE = 6;
 const float		GAME_STATE_SPRITEED = 7;
+const float		GAME_STATE_LOSE = 8;
 const float		GAME_RETHINK = 0.02;
 //sprite
 entity			spriteEntity;
@@ -98,7 +99,6 @@ const vector	UI_COLOR_GREY_BRIGHT  = [0.35,0.35,0.35];
 const vector	UI_COLOR_GREY_MID  = [0.285,0.285,0.285];
 const vector	UI_COLOR_GREY_DARK  = [0.18,0.18,0.18];
 const vector	UI_COLOR_AZURE_DIRT  = [0.282,0.502,0.595];
-const vector	UI_COLOR_HOVER  = UI_COLOR_AZURE;
 const vector	UI_COLOR_GREEN_BRIGHT  = [0.174,0.965,0.004];
 const vector	UI_COLOR_GREEN_MID  = [0.056,0.815,0.006];
 const vector	UI_COLOR_GREEN_DARK  = [0.033,0.480,0.004];
@@ -110,11 +110,12 @@ const vector	UI_COLOR_BROWN_VERYDARK  = [0.260,0.122,0.001];
 const vector	UI_COLOR_BLUE_BRIGHT  = [0.008,0.023,0.945];
 const vector	UI_COLOR_BLUE_MID  = [0.005,0.014,0.595];
 const vector	UI_COLOR_BLUE_DARK  = [0.002,0.007,0.290];
-const vector	UI_COLOR_ORANGE  = [0.940,0.340,0.000];
+const vector	UI_COLOR_ORANGE  = [0.980,0.416,0.020];
 const vector	UI_COLOR_VIOLET  = [0.940,0.003,0.699];
 const vector	UI_COLOR_RED  = [1,0,0];
 const vector	UI_COLOR_GREEN  = [0,1,0];
 const vector	UI_COLOR_BLUE  = [0,0,1];
+const vector	UI_COLOR_HOVER  = UI_COLOR_ORANGE;
 //ui
 entity			uiArtworkIcon;
 float			uiMessageTime,uiWarningTime;
@@ -122,7 +123,7 @@ string 			uiMessage,uiWarning;
 //ed
 float			edGridSize,edTileType,edLayerGround,edLayerEnt,edLayerNpc,edLayerPlayer,edLayerPart,edLayerArtwork;
 float			edSelection,edLoaded,edEntOnScreen;
-.float			edSelected,edEntNum;
+.float			edSelected,edEntNum,edHealth;
 .vector			edOrg;
 vector			edGrid;
 const float		ED_SEL_MAX=32;
@@ -173,7 +174,7 @@ entity			menuSpEdQuit,menuEdToMenu,menuSpEdSaveSubmit;
 entity			menuPaletteWin,menuPalGreenBright,menuPalGreenMid,menuPalGreenDark,menuPalGreenVeryDark;
 entity			menuPalBrownBright,menuPalBrownMid,menuPalBrownDark,menuPalBrownVeryDark;
 entity			menuMainOpt,menuQuitTitle,menuMainQuit,menuQuitYes,menuQuitNo;
-entity			menuOptTitle,menuOptBack,menuCredits;
+entity			menuOptTitle,menuOptBack,menuCredits,menuLoseTitle,menuLoseRestart,menuLevelsTitle;
 float			menuPage,menuPopup,menuCondition;
 const float		MENU_LEVELS_TOT = 50;
 string			menuLevels[MENU_LEVELS_TOT],menuSpriteEd[MENU_LEVELS_TOT],menuPopupText;
@@ -210,7 +211,7 @@ float			levelSave,levelNew,levelOpen,levelOverwrite;
 .float			levelSaveThis;
 //file
 const string	FILE_PATH_LEVELS = "levels/";
-const string	FILE_PATH_ARTWORKS = "data/artworks/";
+const string	FILE_PATH_ARTWORKS = "artworks/";
 //debug
 #define			DEBUG
 float			debug;
@@ -243,6 +244,7 @@ void 			Game_StateEd();
 void 			Game_StateTestToggle();
 void 			Game_StateLevels();
 void 			Game_StateLevelSave();
+void 			Game_StateLose();
 void 			Game_StateSpriteEd();
 void 			Game_Quit();
 void			Menu_ConditionOff();

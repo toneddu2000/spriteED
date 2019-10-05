@@ -47,34 +47,40 @@ void Ed_Reset()
 	while((e = nextent(e))){
 		if(e != world && e.gameClass == GAME_CLASS_SPRITE){
 			e.spriteOrg = e.edOrg;
+			e.charHealth = e.edHealth;
 			//very important, otherwise view is not re-set correctly
 			Screen_Reset();
 		}
 	}
 }
 
-void Ed_TileRemove()
+void Ed_TileRemoveMiddleMouse()
 {	
-	local entity e = world;
+	if(gameState == GAME_STATE_ED){
+		local entity e = world;
 	
-	while ((e = nextent(e))){
-		if(e != world && e.gameClass == GAME_CLASS_SPRITE){
-			local float xaxis = e.spriteOrg_x + e.spriteDim_x;
-			local float yaxis = e.spriteOrg_y + e.spriteDim_y;
-			local vector pos = [inputCursorOrigin_x-screenX,inputCursorOrigin_y-screenY];
-			
-			if(inputCursor){
-				if(pos_x < xaxis && pos_x > e.spriteOrg_x && 
-				pos_y < yaxis && pos_y > e.spriteOrg_y){
-					if(e.gameClass == GAME_CLASS_SPRITE){
-						e.spriteImgPath = "";
-						e.edSelected = FALSE;
-						remove(e);
+		while ((e = nextent(e))){
+			if(e != world && e.gameClass == GAME_CLASS_SPRITE){
+				if(e.spriteClass != SPRITE_CLASS_PLAYER){
+					local float xaxis = e.spriteOrg_x + e.spriteDim_x;
+					local float yaxis = e.spriteOrg_y + e.spriteDim_y;
+					local vector pos = [inputCursorOrigin_x-screenX,inputCursorOrigin_y-screenY];
+					
+					if(inputCursor){
+						if(pos_x < xaxis && pos_x > e.spriteOrg_x && 
+						pos_y < yaxis && pos_y > e.spriteOrg_y){
+							if(e.gameClass == GAME_CLASS_SPRITE){
+								e.spriteImgPath = "";
+								e.edSelected = FALSE;
+								remove(e);
+							}
+						}
 					}
 				}
 			}
 		}
 	}
+	
 }
 
 float Ed_EmptySpotSearch(vector pos)
@@ -310,7 +316,9 @@ void Ed_LevelClear()
 	local entity e=world;
 	while ((e = nextent(e))){
 		if(e != world && e.gameClass == GAME_CLASS_SPRITE){
-			Util_Remove(e);
+			if(e.spriteClass!=SPRITE_CLASS_PLAYER){
+				Util_Remove(e);
+			}
 		}
 	}
 	Screen_Reset();

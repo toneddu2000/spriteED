@@ -26,7 +26,8 @@ SOFTWARE.
 
 void Menu_Levels()
 {
-	menuLevelsList = CUI_List(menuWindow, [340,180],[20,20], GAME_STATE_LEVELS,MENU_PAGE_LEVELS);
+	menuLevelsTitle = CUI_Title("Level load",GAME_STATE_LEVELS,MENU_PAGE_LEVELS);
+	menuLevelsList = CUI_List(menuWindow, [340,180],[20,80], GAME_STATE_LEVELS,MENU_PAGE_LEVELS);
 	local int i;
 	for(i=0;i<MENU_LEVELS_TOT;i++){
 		if(menuLevels[i]!= ""){
@@ -102,7 +103,7 @@ void Menu_Init()
 	menuEdCboxLayerChar = CUI_Cbox(menuEdCboxLayerEnt,edLayerNpc,[0,20,0],Ed_LayerCharToggle,"Layer NPCs",GAME_STATE_ED,MENU_PAGE_ED);
 	menuEdCboxLayerPlayer = CUI_Cbox(menuEdCboxLayerChar,edLayerPlayer,[0,20,0],Ed_LayerPlayerToggle,"Layer player",GAME_STATE_ED,MENU_PAGE_ED);
 	menuEdCboxLayerPart = CUI_Cbox(menuEdCboxLayerPlayer,edLayerPart,[0,20,0],Ed_LayerPartToggle,"Layer particles",GAME_STATE_ED,MENU_PAGE_ED);
-	menuEdCboxLayerArtwork = CUI_Cbox(menuEdCboxLayerPart,edLayerPart,[0,20,0],Ed_LayerArtworkToggle,"Layer artworks",GAME_STATE_ED,MENU_PAGE_ED);
+	menuEdCboxLayerArtwork = CUI_Cbox(menuEdCboxLayerPart,edLayerArtwork,[0,20,0],Ed_LayerArtworkToggle,"Layer artworks",GAME_STATE_ED,MENU_PAGE_ED);
 	//ed level save
 	menuEdSaveLevCont = CUI_Window(menuWindow,[0,0],[0,0],[0.28,0.28,0.285],0,GAME_STATE_LEVELSAVE,MENU_PAGE_NULL);
 	menuEdSaveLevText = CUI_InputArea(menuWindow,menuEdSaveLevCont,"Level name:",[300,100],[20,20],GAME_STATE_LEVELSAVE,MENU_PAGE_NULL,MENU_CONDITION_LEVELSAVE);
@@ -142,6 +143,9 @@ void Menu_Init()
 	menuPalBrownMid =  CUI_ButtonPalette(menuPalBrownBright,UI_COLOR_BROWN_MID);
 	menuPalBrownDark =  CUI_ButtonPalette(menuPalBrownMid,UI_COLOR_BROWN_DARK);
 	menuPalBrownVeryDark =  CUI_ButtonPalette(menuPalBrownDark,UI_COLOR_BROWN_VERYDARK);
+	//lose
+	menuLoseTitle = CUI_Title("You lose",GAME_STATE_LOSE,MENU_PAGE_NULL);
+	menuLoseRestart = CUI_Button(menuWindow,CUI_TYPE_BUTTON_MENU,[(sizex/2)-128,20,0],Game_StateRunning,"Restart game","",GAME_STATE_LOSE,MENU_PAGE_NULL);
 }
 
 void Menu_Popup()
@@ -188,6 +192,13 @@ void Menu_ConditionOff()
 	}
 }
 
+void Menu_Bg(float w,float h)
+{
+	if(gameState == GAME_STATE_MENU || gameState == GAME_STATE_PAUSED){
+		drawpic([0,0],"gfx/bg.png",[w,h],[1,1,1],1);
+	}
+}
+
 void Menu_Submit()
 {
 	if(menuCondition == MENU_CONDITION_LEVELSAVE){
@@ -203,6 +214,7 @@ void Menu_Submit()
 
 void Menu_PostUpdate(float w, float h)
 {
+	Menu_Bg(w,h);
 	Menu_Condition(w,h);
 	
 	switch(gameState){

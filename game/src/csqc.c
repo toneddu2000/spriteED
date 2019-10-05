@@ -59,4 +59,5 @@ void CSQC_UpdateView(float vwidth, float vheight, float notmenu)
 	//cprint(ftos(screenGlobalCoordX)," - ",ftos(screenGlobalCoordY));
 	//cprint(strcat(player.spriteImgSubfolder,"_idle",ftos(rint(player.spriteFrame)),"_up",".png"));
 	//cprint(ftos(edEntSpawnedCnt)," * ");
+	cprint(zaz);
 }

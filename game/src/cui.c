@@ -286,7 +286,7 @@ entity CUI_Credits(vector coord,float vis, float page)
 	e.cuiVis = vis;
 	e.cuiDim = [16,16];
 	e.cuiPage = page;
-	e.cuiLbl = "SpriteED - created by Antonio 'toneddu2000' Latronico\n\n\rreleased under MIT license";
+	e.cuiLbl = "spriteED - created by Antonio 'toneddu2000' Latronico\n\n\rreleased under MIT license\n\n\rhttps://github.com/toneddu2000/spriteED";
 	
 	return e;
 }
@@ -543,11 +543,12 @@ void CUI_PostUpdate(float viscontext)
 							local float cs = 10;
 							if(e.cuiHover == TRUE){
 								drawfill(eOrg+[-1,-1],eDim+[2,2],[1,1,1],1,0);
+								drawfill(eOrg,eDim,UI_COLOR_HOVER,1,0);
 							}
 							else{
 								drawfill(eOrg+[-1,-1],eDim+[2,2],UI_COLOR_GREY_MID,1,0);
+								drawfill(eOrg,eDim,UI_COLOR_GREY_MID,1,0);
 							}
-							drawfill(eOrg,eDim,UI_COLOR_GREY_MID,1,0);
 							drawstring(eOrg+[10,10]
 							,eLbl,[cs,cs],[1,1,1],1,0);
 							

@@ -125,6 +125,9 @@ void File_ActionRead(entity e)
 			else if(strstrofs(ln,"health:") != -1){
 				ln = strreplace("health:","",ln);
 				e.charHealth = stof(ln);
+				if(e.charHealth <= 0){
+					e.charHealth = 0;
+				}
 				ln = fgets(f);
 			}
 			else if(strstrofs(ln,"damage:") != -1){
@@ -212,7 +215,7 @@ void File_LibraryRead()
 		}
 	}
 	else{
-		local float artwsearch = search_begin(strcat(FILE_PATH_ARTWORKS,"*.sprite"),TRUE,FALSE);
+		local float artwsearch = search_begin(strcat("data/",FILE_PATH_ARTWORKS,"*.sprite"),TRUE,FALSE);
 		local float artwtot = search_getsize(artwsearch);
 		local int j=0;
 		local string artwname;
@@ -370,7 +373,7 @@ void File_LevelLoad()
 void File_SpriteEdWriteArtwork()
 {
 	if(spriteEdEntArtwork != world){
-		local float f = fopen(strcat("sprites/",inputText,".sprite"), FILE_WRITE);
+		local float f = fopen(strcat(FILE_PATH_ARTWORKS,inputText,".sprite"), FILE_WRITE);
 		local int i;
 		if (f != -1){
 			for(i=0;i<SPRITE_ED_PIX_MAX;i++){
@@ -415,7 +418,7 @@ void File_ArtworkReadSingleEnt(entity e,string name)
 
 void File_SpriteEdFolderRead()
 {
-	local float levelsearch = search_begin(strcat(FILE_PATH_ARTWORKS,"*.sprite"),TRUE,FALSE);
+	local float levelsearch = search_begin(strcat("data/",FILE_PATH_ARTWORKS,"*.sprite"),TRUE,FALSE);
 	local float levelstot = search_getsize(levelsearch);
 	local int i;
 	local string sprdname;

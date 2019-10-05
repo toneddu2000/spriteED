@@ -37,22 +37,52 @@ void Npc_Update()
 			local entity e = world;
 			while ((e = nextent(e))){
 				if(e.gameClass == GAME_CLASS_SPRITE && e.spriteClass == SPRITE_CLASS_NPC){
-					if(e.charAggr != 0 && e.charHealth > 0){
-						local float d = Util_Vec2Dist(player.spriteOrg,e.spriteOrg);
-						if(d < CHAR_RADIUS_ATTACK){
-							e.charAttacking = TRUE;
+					if(e.charHealth > 0){
+						//directions
+						if(player.spriteOrg_x - e.spriteOrg_x < 0 && player.spriteOrg_y - e.spriteOrg_y < e.spriteDim_y){
+							e.spriteCharDir = SPRITE_CHAR_DIR_LEFT;
 						}
-						else if (d < CHAR_RADIUS_IDLE && d > CHAR_RADIUS_ATTACK){
-							local vector midpos = player.spriteOrg-e.spriteOrg;
-							e.spriteOrg_x += midpos_x * frametime * 1 * e.charSpeed;
-							e.spriteOrg_y += midpos_y * frametime * 1 * e.charSpeed;
+						else if(player.spriteOrg_x - e.spriteOrg_x > 0 && player.spriteOrg_y - e.spriteOrg_y < e.spriteDim_y){
+							e.spriteCharDir = SPRITE_CHAR_DIR_RIGHT;
 						}
-					}
-					if(e.charAttacking == TRUE){
-						e.charAttackTime+=frametime*1;
-						if(e.charAttackTime >= 0.5){
-							e.charAttackTime = 0;
-							e.charAttacking = FALSE;
+						else if(player.spriteOrg_y - e.spriteOrg_y > e.spriteDim_y){
+							e.spriteCharDir = SPRITE_CHAR_DIR_DOWN;
+						}
+						else if(player.spriteOrg_y - e.spriteOrg_y < -e.spriteDim_y){
+							e.spriteCharDir = SPRITE_CHAR_DIR_UP;
+						}
+						e.charTarget = player;
+						Phys_Move(e);
+						//attacking
+						if(e.charAggr != 0){
+							local float d = fabs(Util_Vec2Dist(player.spriteOrg,e.spriteOrg));
+							if(d < CHAR_RADIUS_ATTACK){
+								e.physMoving = FALSE;
+								e.charState = CHAR_STATE_ATTACK;
+								
+							}
+							else if(d > CHAR_RADIUS_ATTACK && d < CHAR_RADIUS_IDLE){
+								e.physMoving = TRUE;
+								e.charState = CHAR_STATE_WALK;
+								/*local vector midpos = player.spriteOrg-e.spriteOrg;
+								e.spriteOrg_x += midpos_x * frametime * 1 * e.charSpeed;
+								e.spriteOrg_y += midpos_y * frametime * 1 * e.charSpeed;
+								*/
+							}
+							else if(d > CHAR_RADIUS_IDLE){
+								e.physMoving = FALSE;
+								e.charState = CHAR_STATE_IDLE;
+							}
+						}
+						if(e.charState == CHAR_STATE_ATTACK){
+							//TEMP
+							if(e.charAttacking == TRUE){
+								Char_AttackRadius(e);
+								e.charAttacking = FALSE;
+							}
+							if(e.spriteFrame >= e.spriteActionCurrentEnd-1){
+								e.charAttacking = TRUE;
+							}
 						}
 					}
 				}

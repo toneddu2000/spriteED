@@ -104,125 +104,110 @@ float Phys_RadiusCollision(entity p, float d)
 	return FALSE;
 }
 
-void Phys_PlayerMoveOld()
-{
-	if(gameState == GAME_STATE_TEST || gameState == GAME_STATE_RUNNING){
-		local vector direction = normalize([input_movevalues_y,-input_movevalues_x]);
-		if(player!=world){
-			//movements
-			local vector pos = [edGrid_x-screenX,edGrid_y-screenY];
-			local float collrad = Phys_RadiusCollision(player,32);
-			if(input_movevalues_x != 0 || input_movevalues_y != 0){
-				if(player.physColliding == FALSE && collrad == FALSE){
-					player.spriteOrg += direction/*+[screenX,screenY]*/;
-					//player.spriteOrg += direction+pos * 0.0001;
-					player.physMoving = TRUE;
-					player.spriteOrgUnstuck = player.spriteOrg;
-				}
-				
-				//we hit the collider, now we go back in the opposite direction,
-				//instead of increasing collisions
-				else{
-					player.spriteOrg = player.spriteOrgUnstuck-direction*2;
-				}
-			}
-			else{
-				player.physMoving = FALSE;
-			}
-			//collision
-			if(player.physMoving == TRUE){
-				Phys_TileCollision3(player,direction);
-			}
-			
-			//collision stuck avoid (reset collision every X msec, otherwise char will get stuck)
-			if(player.physColliding == TRUE){
-				player.physCollidingTime += frametime * 1;
-				if(player.physCollidingTime > PHYS_UNSTUCKTIME){
-					player.physCollidingTime = 0;
-					player.physColliding = FALSE;
-				}
-			}
-			//sprite orientation
-			if(input_movevalues_x > 0){
-				player.spriteCharDir = SPRITE_CHAR_DIR_UP;
-			}
-			else if(input_movevalues_x < 0){
-				player.spriteCharDir = SPRITE_CHAR_DIR_DOWN;
-			}
-			else if(input_movevalues_y > 0){
-				player.spriteCharDir = SPRITE_CHAR_DIR_RIGHT;
-			}
-			else if(input_movevalues_y < 0){
-				player.spriteCharDir = SPRITE_CHAR_DIR_LEFT;
-			}
-			player.physDirection = normalize(input_movevalues);
-		}
-	}
-}
-
 void Phys_Move(entity e)
 {
+	local vector direction;	
+	local vector pos = [edGrid_x-screenX,edGrid_y-screenY];
+	local float collrad;
+	local vector movevel;
 	if(gameState == GAME_STATE_TEST || gameState == GAME_STATE_RUNNING){
 		if(e!=world && e.gameClass == GAME_CLASS_SPRITE){
-			local vector direction;
 			if(e.spriteClass == SPRITE_CLASS_PLAYER){
-				direction = normalize([input_movevalues_y,-input_movevalues_x]);
-			}
-			else{
-				direction = normalize(e.spriteOrg-e.charTarget.spriteOrg);
-			}
-			//movements
-			local vector pos = [edGrid_x-screenX,edGrid_y-screenY];
-			local float collrad = Phys_RadiusCollision(e,32);
-			local vector movevel;
-			if(e.spriteClass == SPRITE_CLASS_PLAYER){
+				direction = normalize([input_movevalues_y,-input_movevalues_x]);	
+				//movements
+				collrad = Phys_RadiusCollision(e,32);
 				movevel = input_movevalues;
-			}
-			else{
-				movevel = e.charVelocity;
-			}
-			if(movevel_x != 0 || movevel_y != 0){
-				if(e.physColliding == FALSE && collrad == FALSE){
-					e.spriteOrg += direction;
-					e.physMoving = TRUE;
-					e.spriteOrgUnstuck = e.spriteOrg;
+				if(movevel_x != 0 || movevel_y != 0){
+					if(e.physColliding == FALSE && collrad == FALSE){
+						e.spriteOrg += direction;
+						e.physMoving = TRUE;
+						e.spriteOrgUnstuck = e.spriteOrg;
+					}
+					//we hit the collider, now we go back in the opposite direction,
+					//instead of increasing collisions
+					else{
+						e.spriteOrg = e.spriteOrgUnstuck-direction*2;
+					}
 				}
-				//we hit the collider, now we go back in the opposite direction,
-				//instead of increasing collisions
 				else{
-					e.spriteOrg = e.spriteOrgUnstuck-direction*2;
+					e.physMoving = FALSE;
 				}
+				//collision
+				if(e.physMoving == TRUE){
+					Phys_TileCollision3(e,direction);
+				}
+				//collision stuck avoid (reset collision every X msec, otherwise char will get stuck)
+				if(e.physColliding == TRUE){
+					e.physCollidingTime += frametime * 1;
+					if(e.physCollidingTime > PHYS_UNSTUCKTIME){
+						e.physCollidingTime = 0;
+						e.physColliding = FALSE;
+					}
+				}
+				//sprite orientation
+				if(movevel_x > 0){
+					e.spriteCharDir = SPRITE_CHAR_DIR_UP;
+				}
+				else if(movevel_x < 0){
+					e.spriteCharDir = SPRITE_CHAR_DIR_DOWN;
+				}
+				else if(movevel_y > 0){
+					e.spriteCharDir = SPRITE_CHAR_DIR_RIGHT;
+				}
+				else if(movevel_y < 0){
+					e.spriteCharDir = SPRITE_CHAR_DIR_LEFT;
+				}
+				e.physDirection = normalize(movevel);
 			}
 			else{
-				e.physMoving = FALSE;
-			}
-			//collision
-			if(e.physMoving == TRUE){
-				Phys_TileCollision3(e,direction);
-			}
-			
-			//collision stuck avoid (reset collision every X msec, otherwise char will get stuck)
-			if(e.physColliding == TRUE){
-				e.physCollidingTime += frametime * 1;
-				if(e.physCollidingTime > PHYS_UNSTUCKTIME){
-					e.physCollidingTime = 0;
-					e.physColliding = FALSE;
+				
+				/*local vector midpos = player.spriteOrg-e.spriteOrg;
+								e.spriteOrg_x += midpos_x * frametime * 1 * e.charSpeed;
+								e.spriteOrg_y += midpos_y * frametime * 1 * e.charSpeed;
+								*/
+				direction = player.spriteOrg-e.spriteOrg;	
+				//movements
+				collrad = Phys_RadiusCollision(e,32);
+				if(e.physMoving == TRUE){
+					if(e.physColliding == FALSE && collrad == FALSE){
+						//e.spriteOrg += direction;
+						e.spriteOrg_x += direction_x * frametime * 1 * e.charSpeed;
+						e.spriteOrg_y += direction_y * frametime * 1 * e.charSpeed;
+						e.spriteOrgUnstuck = e.spriteOrg;
+					}
+					//we hit the collider, now we go back in the opposite direction,
+					//instead of increasing collisions
+					else{
+						e.spriteOrg = e.spriteOrgUnstuck-direction*2;
+					}
 				}
+				//collision
+				if(e.physMoving == TRUE){
+					Phys_TileCollision3(e,direction);
+				}
+				//collision stuck avoid (reset collision every X msec, otherwise char will get stuck)
+				if(e.physColliding == TRUE){
+					e.physCollidingTime += frametime * 1;
+					if(e.physCollidingTime > PHYS_UNSTUCKTIME){
+						e.physCollidingTime = 0;
+						e.physColliding = FALSE;
+					}
+				}
+				//sprite orientation
+				if(movevel_x > 0){
+					e.spriteCharDir = SPRITE_CHAR_DIR_UP;
+				}
+				else if(movevel_x < 0){
+					e.spriteCharDir = SPRITE_CHAR_DIR_DOWN;
+				}
+				else if(movevel_y > 0){
+					e.spriteCharDir = SPRITE_CHAR_DIR_RIGHT;
+				}
+				else if(movevel_y < 0){
+					e.spriteCharDir = SPRITE_CHAR_DIR_LEFT;
+				}
+				e.physDirection = normalize(direction);
 			}
-			//sprite orientation
-			if(movevel_x > 0){
-				player.spriteCharDir = SPRITE_CHAR_DIR_UP;
-			}
-			else if(movevel_x < 0){
-				player.spriteCharDir = SPRITE_CHAR_DIR_DOWN;
-			}
-			else if(movevel_y > 0){
-				player.spriteCharDir = SPRITE_CHAR_DIR_RIGHT;
-			}
-			else if(movevel_y < 0){
-				player.spriteCharDir = SPRITE_CHAR_DIR_LEFT;
-			}
-			e.physDirection = normalize(movevel);
 		}
 	}
 }

@@ -36,6 +36,7 @@ void Game_StateRunning()
 	gameState = GAME_STATE_RUNNING;
 	menuPage = MENU_PAGE_NULL;
 	Input_Cursor();
+	Ed_Reset();
 }
 
 void Game_StateMenu()
@@ -52,6 +53,13 @@ void Game_StateLevels()
 	Input_Cursor();
 	File_LevelsFolderRead();
 	Menu_Levels();
+}
+
+void Game_StateLose()
+{
+	gameState = GAME_STATE_LOSE;
+	menuPage = MENU_PAGE_NULL;
+	Input_Cursor();
 }
 
 void Game_StateLevelSave()

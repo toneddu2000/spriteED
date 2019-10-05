@@ -1,5 +1,7 @@
 
 *.lno
+*.psd
 conhistory.txt
 assets/
+screenshots/
 data/

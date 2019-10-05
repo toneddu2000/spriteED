@@ -82,10 +82,10 @@ void Sprite_DrawArtwork(entity e)
 	}
 	//drawstring(e.spriteOrg+[screenX,screenY], vtos(spriteEdEntArtwork.spriteEdPix[14]),[1,1],[1,0,0],1,0);
 }
-
+string zaz;
 void Sprite_DrawAction(entity e)
 {
-	if(e != world){
+	if(e != world && e.charHealth > 0){
 		local string s="";
 		local string path = "";
 		if(e.gameClass == GAME_CLASS_SPRITE){
@@ -130,6 +130,7 @@ void Sprite_DrawAction(entity e)
 							e.spriteFrame = 0;
 						}
 					}
+					zaz = s;
 					s = strcat(SPRITE_FOLDER,SPRITE_FOLDER_PART,e.spriteImgName,"/","f",ftos(rint(e.spriteFrame)),".png");
 				}
 			}
@@ -217,12 +218,16 @@ entity Sprite_Spawn(float cl,string imgname,vector org, vector dim,vector col,fl
 		break;
 		case SPRITE_CLASS_NPC:
 			File_ActionRead(e);
+			e.edHealth = e.charHealth;
 		break;
 		case SPRITE_CLASS_PLAYER:
 			File_ActionRead(e);
+			e.edHealth = e.charHealth;
 		break;
 		case SPRITE_CLASS_PART:
 			File_PartRead(e);
+			//avoid not be rendered in Sprite_DrawAction
+			e.charHealth = 1;
 		break;
 		case SPRITE_CLASS_ARTWORK:
 			e.spriteArtworkName = imgname;

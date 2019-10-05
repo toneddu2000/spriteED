@@ -38,7 +38,7 @@ void Input_Cursor()
 void Input_Borders(float w,float h)
 {
 	if(gameState == GAME_STATE_ED){
-		if(screenScrollEnabled == TRUE /*&& inputMouse3Pressed == TRUE*/){
+		if(screenScrollEnabled == TRUE){
 			if(inputCursorOrigin_x <= 0){
 				screenX+=edGridSize;
 				screenScrollEnabled = FALSE;
@@ -149,7 +149,7 @@ void Input_MouseButton2Released()
 void Input_MouseButton3Released()
 {
 	inputMouse3Pressed = FALSE;
-	
+	Ed_TileRemoveMiddleMouse();
 }
 
 void Input_MouseWheelDownReleased()
