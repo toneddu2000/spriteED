@@ -1,15 +1,13 @@
 <img src="game/gfx/press/sprited_logo.png" alt="logo" style="text-align:center" class="inline"/>
 
+[Youtube video](https://youtu.be/eAt7OgUmF-A)
+
 # spriteED
 spriteEd is a simple open source sprite editor for FTEQW game engine released under MIT license.
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/eAt7OgUmF-A" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 <img src="game/gfx/press/shot1.jpg" alt="logo" style="text-align:center" class="inline"/>
 
 <img src="game/gfx/press/shot2.jpg" alt="logo" style="text-align:center" class="inline"/>
-
-{% include youtube.html id=eAt7OgUmF-A %}
 
 ##Features:
 
