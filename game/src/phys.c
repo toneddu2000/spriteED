@@ -1,3 +1,28 @@
+/*
+MIT License
+
+Copyright (c) 2019 Antonio "toneddu2000" Latronico
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+//Physics
 
 float Phys_TileCollision(entity p,vector dir)
 {
@@ -70,31 +95,6 @@ float Phys_RadiusCollision(entity p, float d)
 				local float dist = Util_Vec2Dist(p.spriteOrg,e.spriteOrg);
 				local float m = 2;
 				if(dist < e.spriteDim_x+m){
-					//check e org compared to p org to understand if it's really blocking p way
-					/*if(p.spriteCharDir == SPRITE_CHAR_DIR_RIGHT){
-						if(e.spriteOrg_x > p.spriteOrg_x){
-							p.spriteOrg_x -= e.spriteDim_x/2+(m*2);
-							return TRUE;
-						}
-					}
-					else if(p.spriteCharDir == SPRITE_CHAR_DIR_LEFT){
-						if(e.spriteOrg_x < p.spriteOrg_x){
-							p.spriteOrg_x += e.spriteDim_x/2+(m*2);
-							return TRUE;
-						}
-					}
-					else if(p.spriteCharDir == SPRITE_CHAR_DIR_DOWN){
-						if(e.spriteOrg_y > p.spriteOrg_y){
-							p.spriteOrg_y -= e.spriteDim_y/2+(m*2);
-							return TRUE;
-						}
-					}
-					else if(p.spriteCharDir == SPRITE_CHAR_DIR_UP){
-						if(e.spriteOrg_y < p.spriteOrg_y){
-							p.spriteOrg_y += e.spriteDim_y/2+(m*2);
-							return TRUE;
-						}
-					}*/
 					local vector opposdir = normalize(e.spriteOrg-p.spriteOrg);
 					p.spriteOrg += -opposdir;
 				}
@@ -123,11 +123,6 @@ void Phys_PlayerMoveOld()
 				//we hit the collider, now we go back in the opposite direction,
 				//instead of increasing collisions
 				else{
-					/*
-					//if(player.physCollidingTime == 0){
-						player.spriteOrg += -direction * (input_timelength * 15.0);
-						player.physMoving = TRUE;
-					//}*/
 					player.spriteOrg = player.spriteOrgUnstuck-direction*2;
 				}
 			}
