@@ -1,0 +1,4 @@
+game spriteED
+name "spriteED"
+basegame game
+disablehomedir 1

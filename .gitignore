@@ -1,0 +1,5 @@
+
+*.lno
+conhistory.txt
+assets/
+data/
