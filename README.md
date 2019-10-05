@@ -1,7 +1,9 @@
+<img src="game/gfx/press/sprited_logo.png" alt="logo" style="text-align:center" class="inline"/>
 # spriteED
-spriteEd is a simple open source sprite editor for FTEQW game engine released under MIT license. 
-<img src="game/gfx/sprited_logo.png" alt="logo" class="inline"/>
+spriteEd is a simple open source sprite editor for FTEQW game engine released under MIT license.
+<img src="game/gfx/press/shot1.jpg" alt="logo" style="text-align:center" class="inline"/>
 ## Features
+<img src="game/gfx/press/shot2.jpg" alt="logo" style="text-align:center" class="inline"/>
 Features:
 - entities placement
 - possiblity to add top / shadow part to entities
