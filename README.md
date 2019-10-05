@@ -1,6 +1,6 @@
 # spriteED
 spriteEd is a simple open source sprite editor for FTEQW game engine released under MIT license. 
-(game/gfx/sprited_logo.png)
+<img src="game/gfx/sprited_logo.png" alt="logo" class="inline"/>
 ## Features
 Features:
 - entities placement
