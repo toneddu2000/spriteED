@@ -7,9 +7,11 @@ spriteEd is a simple open source sprite editor for FTEQW game engine released un
 
 <img src="game/gfx/press/shot1.jpg" alt="logo" style="text-align:center" class="inline"/>
 
-##Features:
-
 <img src="game/gfx/press/shot2.jpg" alt="logo" style="text-align:center" class="inline"/>
+
+{% include youtube.html id=eAt7OgUmF-A %}
+
+##Features:
 
 - entities placement
 - possiblity to add top / shadow part to entities
