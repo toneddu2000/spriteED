@@ -359,6 +359,13 @@ void Ed_EntOnScreen()
 	}
 }
 
+void Ed_Quit()
+{
+	if(gameState == GAME_STATE_ED){
+		localcmd("quit");
+	}
+}
+
 void Ed_Update()
 {
 	if(gameState == GAME_STATE_ED){

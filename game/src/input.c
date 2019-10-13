@@ -376,7 +376,7 @@ float Input_Manager(float evtype, float scanx,float chary,float devid)
 				}
 				//letter Q
 				else if (scanx == 113){
-					localcmd("quit");
+					Ed_Quit();
 				}
 				else if (scanx == K_ENTER){
 					//localcmd("map game.map");

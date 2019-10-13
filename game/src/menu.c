@@ -57,6 +57,12 @@ void Menu_SpriteEdSaveArtwork()
 	menuCondition = MENU_CONDITION_SPRITEEDSAVE;
 }
 
+void Menu_SpriteEdExportToPfm()
+{
+	menuPage = MENU_PAGE_SPRITEED_EXPORT;
+	menuCondition = MENU_CONDITION_SPRITEEDEXPORT;
+}
+
 void Menu_LevelSave()
 {
 	Game_StateLevelSave();
@@ -128,11 +134,16 @@ void Menu_Init()
 	//sprite ed
 	menuSpEdNewCanvas = CUI_Button(menuWindow,CUI_TYPE_BUTTON_ED,[0,0],Game_StateSpriteEd,strcat(MENU_IMG_PATH_ED,"level_new.png"),"Reset artwork",GAME_STATE_SPRITEED,MENU_PAGE_NULL);
 	menuSpEdSaveCanvas = CUI_Button(menuSpEdNewCanvas,CUI_TYPE_BUTTON_ED,[0,0],Menu_SpriteEdSaveArtwork,strcat(MENU_IMG_PATH_ED,"level_save.png"),"Save artwork",GAME_STATE_SPRITEED,MENU_PAGE_NULL);
-	menuSpEdQuit = CUI_Button(menuSpEdSaveCanvas,CUI_TYPE_BUTTON_ED,[0,0],Game_StateEd,strcat(MENU_IMG_PATH_ED,"exit.png"),"Back to editor",GAME_STATE_SPRITEED,MENU_PAGE_NULL);
+	menuSpEdExportPfm = CUI_Button(menuSpEdSaveCanvas,CUI_TYPE_BUTTON_ED,[0,0],Menu_SpriteEdExportToPfm,strcat(MENU_IMG_PATH_ED,"artwork_export.png"),"Export to .pfm file",GAME_STATE_SPRITEED,MENU_PAGE_NULL);
+	menuSpEdQuit = CUI_Button(menuSpEdExportPfm,CUI_TYPE_BUTTON_ED,[0,0],Game_StateEd,strcat(MENU_IMG_PATH_ED,"exit.png"),"Back to editor",GAME_STATE_SPRITEED,MENU_PAGE_NULL);
 	//sprite ed save menu
 	menuSpEdSaveCont = CUI_Window(menuWindow,[0,0],[0,0],[0.28,0.28,0.285],0,GAME_STATE_SPRITEED,MENU_PAGE_SPRITEED_SAVE);
 	menuSpEdSaveText = CUI_InputArea(menuWindow,menuEdSaveLevCont,"Artwork name:",[300,100],[20,20],GAME_STATE_SPRITEED,MENU_PAGE_SPRITEED_SAVE,MENU_CONDITION_SPRITEEDSAVE);
-	menuSpEdSaveSubmit = CUI_InputSubmit(menuWindow,menuEdSaveLevCont,[330,20],MENU_PAGE_SPRITEED_SAVE,MENU_PAGE_SPRITEED_SAVE,MENU_CONDITION_SPRITEEDSAVE);
+	menuSpEdSaveSubmit = CUI_InputSubmit(menuWindow,menuEdSaveLevCont,[330,20],GAME_STATE_SPRITEED,MENU_PAGE_SPRITEED_SAVE,MENU_CONDITION_SPRITEEDSAVE);
+	//sprite ed export menu
+	menuSpEdExportCont = CUI_Window(menuWindow,[0,0],[0,0],[0.28,0.28,0.285],0,GAME_STATE_SPRITEED,MENU_PAGE_SPRITEED_EXPORT);
+	menuSpEdExportText = CUI_InputArea(menuWindow,menuEdSaveLevCont,"file name:",[300,100],[20,20],GAME_STATE_SPRITEED,MENU_PAGE_SPRITEED_EXPORT,MENU_CONDITION_SPRITEEDEXPORT);
+	menuSpEdExportSubmit = CUI_InputSubmit(menuWindow,menuEdSaveLevCont,[330,20],GAME_STATE_SPRITEED,MENU_PAGE_SPRITEED_EXPORT,MENU_CONDITION_SPRITEEDEXPORT);
 	//sprite ed palette
 	menuPaletteWin = CUI_Window(menuWindow,[300,sizey-50],[sizex-320,50],[0.28,0.28,0.285],0,GAME_STATE_SPRITEED,MENU_PAGE_NULL);
 	menuPalGreenBright =  CUI_ButtonPalette(menuPaletteWin,UI_COLOR_GREEN_BRIGHT);
@@ -205,7 +216,9 @@ void Menu_Submit()
 		File_LevelSave();
 	}
 	else if(menuCondition == MENU_CONDITION_SPRITEEDSAVE){
-		//File_SpriteEdWriteArtwork();
+		File_SpriteEdWriteArtwork();
+	}
+	else if(menuCondition == MENU_CONDITION_SPRITEEDEXPORT){
 		File_SpriteEdWriteArtworkToPfm();
 	}
 	Menu_ConditionOff();

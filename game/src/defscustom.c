@@ -175,6 +175,7 @@ entity			menuPaletteWin,menuPalGreenBright,menuPalGreenMid,menuPalGreenDark,menu
 entity			menuPalBrownBright,menuPalBrownMid,menuPalBrownDark,menuPalBrownVeryDark;
 entity			menuMainOpt,menuQuitTitle,menuMainQuit,menuQuitYes,menuQuitNo;
 entity			menuOptTitle,menuOptBack,menuCredits,menuLoseTitle,menuLoseRestart,menuLevelsTitle;
+entity			menuSpEdExportPfm,menuSpEdExportCont,menuSpEdExportText,menuSpEdExportSubmit;
 float			menuPage,menuPopup,menuCondition;
 const float		MENU_LEVELS_TOT = 50;
 string			menuLevels[MENU_LEVELS_TOT],menuSpriteEd[MENU_LEVELS_TOT],menuPopupText;
@@ -188,6 +189,7 @@ const float		MENU_PAGE_OPT = 6;
 const float		MENU_PAGE_OPTVIDEO = 7;
 const float		MENU_PAGE_OPTAUDIO = 8;
 const float		MENU_PAGE_QUIT = 9;
+const float		MENU_PAGE_SPRITEED_EXPORT = 10;
 const float		MENU_POPUP_LEVELOVERWRITE = 1;
 const float		MENU_POPUP_QUIT = 2;
 const float		MENU_POPUP_QUIT = 2;
@@ -195,6 +197,7 @@ const string	MENU_IMG_PATH = "gfx/";
 const string	MENU_IMG_PATH_ED = "gfx/ed/";
 const float		MENU_CONDITION_LEVELSAVE = 200;
 const float		MENU_CONDITION_SPRITEEDSAVE = 300;
+const float		MENU_CONDITION_SPRITEEDEXPORT = 400;
 //player
 entity			player;
 float			playerSpawned;
