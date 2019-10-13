@@ -45,7 +45,7 @@ const float		GAME_RETHINK = 0.02;
 entity			spriteEntity;
 .entity			spriteEntTop,spriteEntShdw;
 const float		SPRITE_LIBRARY_MAX = 32;
-string 			spriteLibrary[SPRITE_LIBRARY_MAX],spriteArtworkSelected;
+string 			spriteLibrary[SPRITE_LIBRARY_MAX];
 float			spriteLibraryIdx,spriteGroundLibrarySize;
 .vector 		spriteDim,spriteCol,spriteOrg,spriteOrgUnstuck;
 .float			spriteClass,spriteActive,spriteAlpha,spriteCharDir,spriteFrame;
@@ -212,6 +212,7 @@ float			levelSave,levelNew,levelOpen,levelOverwrite;
 //file
 const string	FILE_PATH_LEVELS = "levels/";
 const string	FILE_PATH_ARTWORKS = "artworks/";
+const string	FILE_PATH_PFM = "pfm/";
 //debug
 #define			DEBUG
 float			debug;

@@ -202,12 +202,11 @@ void Menu_Bg(float w,float h)
 void Menu_Submit()
 {
 	if(menuCondition == MENU_CONDITION_LEVELSAVE){
-		//Level_SaveSimple();
 		File_LevelSave();
 	}
 	else if(menuCondition == MENU_CONDITION_SPRITEEDSAVE){
-		//Level_SaveSimple();
-		File_SpriteEdWriteArtwork();
+		//File_SpriteEdWriteArtwork();
+		File_SpriteEdWriteArtworkToPfm();
 	}
 	Menu_ConditionOff();
 }

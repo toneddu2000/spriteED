@@ -124,6 +124,7 @@ void UI_SpriteLibraryIcon(float w,float h)
 {
 	local string img = "",type="";
 	
+	/*
 	if(edTileType != SPRITE_CLASS_ARTWORK){
 		img = spriteLibrary[spriteLibraryIdx];
 		drawfill([w/2-32-2,h-70-2],[68,68], [1,1,1],1);
@@ -152,8 +153,16 @@ void UI_SpriteLibraryIcon(float w,float h)
 			}
 		}
 	}
+	*/
 	
-	
+	img = spriteLibrary[spriteLibraryIdx];
+	drawfill([w/2-32-2,h-70-2],[68,68], [1,1,1],1);
+	if(img != ""){
+		drawpic([w/2-32,h-70],img,[64,64],[1,1,1],1);
+	}
+	else{
+		drawpic([w/2-32,h-70],"assets/gfx/no_image.png",[64,64],[1,1,1],1);
+	}
 	//type display
 	switch(edTileType){
 		case SPRITE_CLASS_GROUND:

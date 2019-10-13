@@ -215,6 +215,7 @@ void File_LibraryRead()
 		}
 	}
 	else{
+		/*
 		local float artwsearch = search_begin(strcat("data/",FILE_PATH_ARTWORKS,"*.sprite"),TRUE,FALSE);
 		local float artwtot = search_getsize(artwsearch);
 		local int j=0;
@@ -225,6 +226,20 @@ void File_LibraryRead()
 				if(artwname != ""){
 					spriteLibrary[j]=search_getfilename(artwsearch,j);
 					spriteArtworkSelected = spriteLibrary[j];
+				}
+			}
+		}
+		*/
+		folder = search_begin(strcat("data/",FILE_PATH_PFM,"*.pfm"),TRUE,FALSE);
+		sz = search_getsize(folder);
+		//library
+		if (folder != -1){
+			for(i=0;i<sz;i++){
+				sprname = search_getfilename(folder,i);
+				sprname = strreplace(strcat(SPRITE_FOLDER,foldername,"/"),"",sprname);
+				if(sprname != ""){
+					spriteGroundLibrarySize++;
+					spriteLibrary[i] = sprname;
 				}
 			}
 		}
@@ -382,6 +397,26 @@ void File_SpriteEdWriteArtwork()
 			fclose(f);
 		}
 		uiMessage = strcat("Sprite ",inputText, " succesfully created");
+	}
+}
+
+void File_SpriteEdWriteArtworkToPfm()
+{
+	if(spriteEdEntArtwork != world){
+		local float f = fopen(strcat(FILE_PATH_PFM,inputText,".pfm"), FILE_WRITE);
+		/*
+		local int i;
+		if (f != -1){
+			for(i=0;i<SPRITE_ED_PIX_MAX;i++){
+				fputs(f,strcat(vtos(spriteEdEntArtwork.spriteEdPix[i]),"\n"));
+			}				
+			fclose(f);
+		}
+		*/
+		local float imgwd=32,imght=32;
+		fputs(f, "PF\n", ftos(imgwd), " ", ftos(imght), "\n-1\n"); //magic, dimensions, endiannessandscale
+		fwrite(f,(void *)&spriteEdEntArtwork.spriteEdPix[0], sizeof(vector)*imgwd*imght);
+		uiMessage = strcat("Pfm file ",inputText, ".pfm succesfully created");
 	}
 }
 

@@ -64,7 +64,7 @@ void Sprite_DrawEntSubParts(entity e,float part)
 
 void Sprite_DrawArtwork(entity e)
 {
-	if(e != world){
+	/*if(e != world){
 		local int i;
 		local float h=0,v=0,tot=31;
 		for(i=0;i<SPRITE_ED_PIX_MAX;i++){
@@ -79,6 +79,10 @@ void Sprite_DrawArtwork(entity e)
 				v+=1;
 			}
 		}
+	}*/
+	if(e != world){
+		local string s = e.spriteArtworkName;
+		drawpic(e.spriteOrg+[screenX,screenY],s,e.spriteDim,e.spriteCol,e.spriteAlpha);
 	}
 	//drawstring(e.spriteOrg+[screenX,screenY], vtos(spriteEdEntArtwork.spriteEdPix[14]),[1,1],[1,0,0],1,0);
 }
@@ -231,7 +235,8 @@ entity Sprite_Spawn(float cl,string imgname,vector org, vector dim,vector col,fl
 		break;
 		case SPRITE_CLASS_ARTWORK:
 			e.spriteArtworkName = imgname;
-			File_ArtworkReadSingleEnt(e,spriteArtworkSelected);
+			//File_ArtworkReadSingleEnt(e,spriteArtworkSelected);
+			
 		break;
 	}
 	return e;
